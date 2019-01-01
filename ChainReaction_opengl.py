@@ -42,6 +42,7 @@ edges = (
     (5,7)
     )
 player_color = [
+    (0,0,0), # <= This color will never show up.
     (0,0,1),
     (0,1,0),
     (1,0,0),
@@ -56,9 +57,9 @@ currently_selected_cube = [0,0,0]
 
 grid_x = int(input("Enter Grid Size in X-direction:\n"))
 grid_y = int(input("Enter Grid Size in Y-direction:\n"))
-distance_from_grid = max(grid_x,grid_y)*1.3
-MainGrid = np.zeros((grid_x,grid_y))
-PlayerRecordGrid = np.zeros((grid_x,grid_y))
+distance_from_grid = max(grid_x,grid_y)*1.414
+MainGrid = np.zeros((grid_y,grid_x)) # I have just replaced the x and y
+PlayerRecordGrid = np.zeros((grid_y,grid_x))
 Grid = []
 GameOver = False
 
@@ -67,131 +68,131 @@ def SolveGrid(passed_grid):
     grid = np.copy(passed_grid)
     for i in range(grid_x):
         for j in range(grid_y):
-            if i==0 or i==grid_x-1:
-                if j==0 or j==grid_y-1:
+            if j==0 or j==grid_x-1:
+                if i==0 or i==grid_y-1:
                     # Corners Code Start
-                    if grid[i][j] > 1:
-                        if i==0  and  j==0:
-                            grid[i][j] = 0
-                            grid[i+1][j] += 1
-                            PlayerRecordGrid[i+1][j] = PlayerRecordGrid[i][j]
-                            grid[i][j+1] += 1
-                            PlayerRecordGrid[i][j+1] = PlayerRecordGrid[i][j]
-                            PlayerRecordGrid[i][j] = 0
-                        if i==grid_x-1 and j==0:
-                            grid[i][j] = 0
-                            grid[i-1][j] += 1
-                            PlayerRecordGrid[i-1][j] = PlayerRecordGrid[i][j]
-                            grid[i][j+1] += 1
-                            PlayerRecordGrid[i][j+1] = PlayerRecordGrid[i][j]
-                            PlayerRecordGrid[i][j] = 0
-                        if i==0 and j==grid_y-1:
-                            grid[i][j] = 0
-                            grid[i][j-1] += 1
-                            PlayerRecordGrid[i][j-1] = PlayerRecordGrid[i][j]
-                            grid[i+1][j] += 1
-                            PlayerRecordGrid[i+1][j] = PlayerRecordGrid[i][j]
-                            PlayerRecordGrid[i][j] = 0
-                        if i==grid_x-1 and j==grid_y-1:
-                            grid[i][j] = 0
-                            grid[i-1][j] += 1
-                            PlayerRecordGrid[i-1][j] = PlayerRecordGrid[i][j]
-                            grid[i][j-1] += 1
-                            PlayerRecordGrid[i][j-1] = PlayerRecordGrid[i][j]
-                            PlayerRecordGrid[i][j] = 0
+                    if grid[j][i] > 1:
+                        if j==0  and  i==0:
+                            grid[j][i] = 0
+                            grid[j+1][i] += 1
+                            PlayerRecordGrid[j+1][i] = PlayerRecordGrid[j][i]
+                            grid[j][i+1] += 1
+                            PlayerRecordGrid[j][i+1] = PlayerRecordGrid[j][i]
+                            PlayerRecordGrid[j][i] = 0
+                        if j==grid_x-1 and i==0:
+                            grid[j][i] = 0
+                            grid[j-1][i] += 1
+                            PlayerRecordGrid[j-1][i] = PlayerRecordGrid[j][i]
+                            grid[j][i+1] += 1
+                            PlayerRecordGrid[j][i+1] = PlayerRecordGrid[j][i]
+                            PlayerRecordGrid[j][i] = 0
+                        if j==0 and i==grid_y-1:
+                            grid[j][i] = 0
+                            grid[j][i-1] += 1
+                            PlayerRecordGrid[j][i-1] = PlayerRecordGrid[j][i]
+                            grid[j+1][i] += 1
+                            PlayerRecordGrid[j+1][i] = PlayerRecordGrid[j][i]
+                            PlayerRecordGrid[j][i] = 0
+                        if j==grid_x-1 and i==grid_y-1:
+                            grid[j][i] = 0
+                            grid[j-1][i] += 1
+                            PlayerRecordGrid[j-1][i] = PlayerRecordGrid[j][i]
+                            grid[j][i-1] += 1
+                            PlayerRecordGrid[j][i-1] = PlayerRecordGrid[j][i]
+                            PlayerRecordGrid[j][i] = 0
                         # Corners Code End
                 # Edge Code Start
                 else:
-                    if grid[i][j] > 2:
-                        if i==0:
-                            grid[i][j] = 0
-                            grid[i+1][j] += 1
-                            PlayerRecordGrid[i+1][j] = PlayerRecordGrid[i][j]
-                            grid[i][j+1] += 1
-                            PlayerRecordGrid[i][j+1] = PlayerRecordGrid[i][j]
-                            grid[i][j-1] += 1
-                            PlayerRecordGrid[i][j-1] = PlayerRecordGrid[i][j]
-                            PlayerRecordGrid[i][j] = 0
-                        if i==grid_x-1:
-                            grid[i][j] = 0
-                            grid[i-1][j] += 1
-                            PlayerRecordGrid[i-1][j] = PlayerRecordGrid[i][j]
-                            grid[i][j+1] += 1
-                            PlayerRecordGrid[i][j+1] = PlayerRecordGrid[i][j]
-                            grid[i][j-1] += 1
-                            PlayerRecordGrid[i][j-1] = PlayerRecordGrid[i][j]
-                            PlayerRecordGrid[i][j] = 0
+                    if grid[j][i] > 2:
                         if j==0:
-                            grid[i][j] = 0
-                            grid[i][j+1] += 1
-                            PlayerRecordGrid[i][j+1] = PlayerRecordGrid[i][j]
-                            grid[i+1][j] += 1
-                            PlayerRecordGrid[i+1][j] = PlayerRecordGrid[i][j]
-                            grid[i-1][j] += 1
-                            PlayerRecordGrid[i-1][j] = PlayerRecordGrid[i][j]
-                            PlayerRecordGrid[i][j] = 0
-                        if j==grid_y-1:
-                            grid[i][j] = 0
-                            grid[i][j-1] += 1
-                            PlayerRecordGrid[i][j-1] = PlayerRecordGrid[i][j]
-                            grid[i+1][j] += 1
-                            PlayerRecordGrid[i+1][j] = PlayerRecordGrid[i][j]
-                            grid[i-1][j] += 1
-                            PlayerRecordGrid[i-1][j] = PlayerRecordGrid[i][j]
-                            PlayerRecordGrid[i][j] = 0
-            if j == 0 or j == grid_y-1:
-                if grid[i][j] > 2:
-                    if i==0:
-                        grid[i][j] = 0
-                        grid[i+1][j] += 1
-                        PlayerRecordGrid[i+1][j] = PlayerRecordGrid[i][j]
-                        grid[i][j+1] += 1
-                        PlayerRecordGrid[i][j+1] = PlayerRecordGrid[i][j]
-                        grid[i][j-1] += 1
-                        PlayerRecordGrid[i][j-1] = PlayerRecordGrid[i][j]
-                        PlayerRecordGrid[i][j] = 0
-                    if i==grid_x-1:
-                        grid[i][j] = 0
-                        grid[i-1][j] += 1
-                        PlayerRecordGrid[i-1][j] = PlayerRecordGrid[i][j]
-                        grid[i][j+1] += 1
-                        PlayerRecordGrid[i][j+1] = PlayerRecordGrid[i][j]
-                        grid[i][j-1] += 1
-                        PlayerRecordGrid[i][j-1] = PlayerRecordGrid[i][j]
-                        PlayerRecordGrid[i][j] = 0
+                            grid[j][i] = 0
+                            grid[j+1][i] += 1
+                            PlayerRecordGrid[j+1][i] = PlayerRecordGrid[j][i]
+                            grid[j][i+1] += 1
+                            PlayerRecordGrid[j][i+1] = PlayerRecordGrid[j][i]
+                            grid[j][i-1] += 1
+                            PlayerRecordGrid[j][i-1] = PlayerRecordGrid[j][i]
+                            PlayerRecordGrid[j][i] = 0
+                        if j==grid_x-1:
+                            grid[j][i] = 0
+                            grid[j-1][i] += 1
+                            PlayerRecordGrid[j-1][i] = PlayerRecordGrid[j][i]
+                            grid[j][i+1] += 1
+                            PlayerRecordGrid[j][i+1] = PlayerRecordGrid[j][i]
+                            grid[j][i-1] += 1
+                            PlayerRecordGrid[j][i-1] = PlayerRecordGrid[j][i]
+                            PlayerRecordGrid[j][i] = 0
+                        if i==0:
+                            grid[j][i] = 0
+                            grid[j][i+1] += 1
+                            PlayerRecordGrid[j][i+1] = PlayerRecordGrid[j][i]
+                            grid[j+1][i] += 1
+                            PlayerRecordGrid[j+1][i] = PlayerRecordGrid[j][i]
+                            grid[j-1][i] += 1
+                            PlayerRecordGrid[j-1][i] = PlayerRecordGrid[j][i]
+                            PlayerRecordGrid[j][i] = 0
+                        if i==grid_y-1:
+                            grid[j][i] = 0
+                            grid[j][i-1] += 1
+                            PlayerRecordGrid[j][i-1] = PlayerRecordGrid[j][i]
+                            grid[j+1][i] += 1
+                            PlayerRecordGrid[j+1][i] = PlayerRecordGrid[j][i]
+                            grid[j-1][i] += 1
+                            PlayerRecordGrid[j-1][i] = PlayerRecordGrid[j][i]
+                            PlayerRecordGrid[j][i] = 0
+            if i == 0 or i == grid_y-1:
+                if grid[j][i] > 2:
                     if j==0:
-                        grid[i][j] = 0
-                        grid[i][j+1] += 1
-                        PlayerRecordGrid[i][j+1] = PlayerRecordGrid[i][j]
-                        grid[i+1][j] += 1
-                        PlayerRecordGrid[i+1][j] = PlayerRecordGrid[i][j]
-                        grid[i-1][j] += 1
-                        PlayerRecordGrid[i-1][j] = PlayerRecordGrid[i][j]
-                        PlayerRecordGrid[i][j] = 0
-                    if j==grid_y-1:
-                        grid[i][j] = 0
-                        grid[i][j-1] += 1
-                        PlayerRecordGrid[i][j-1] = PlayerRecordGrid[i][j]
-                        grid[i+1][j] += 1
-                        PlayerRecordGrid[i+1][j] = PlayerRecordGrid[i][j]
-                        grid[i-1][j] += 1
-                        PlayerRecordGrid[i-1][j] = PlayerRecordGrid[i][j]
-                        PlayerRecordGrid[i][j] = 0
+                        grid[j][i] = 0
+                        grid[j+1][i] += 1
+                        PlayerRecordGrid[j+1][i] = PlayerRecordGrid[j][i]
+                        grid[j][i+1] += 1
+                        PlayerRecordGrid[j][i+1] = PlayerRecordGrid[j][i]
+                        grid[j][i-1] += 1
+                        PlayerRecordGrid[j][i-1] = PlayerRecordGrid[j][i]
+                        PlayerRecordGrid[j][i] = 0
+                    if j==grid_x-1:
+                        grid[j][i] = 0
+                        grid[j-1][i] += 1
+                        PlayerRecordGrid[j-1][i] = PlayerRecordGrid[j][i]
+                        grid[j][i+1] += 1
+                        PlayerRecordGrid[j][i+1] = PlayerRecordGrid[j][i]
+                        grid[j][i-1] += 1
+                        PlayerRecordGrid[j][i-1] = PlayerRecordGrid[j][i]
+                        PlayerRecordGrid[j][i] = 0
+                    if i==0:
+                        grid[j][i] = 0
+                        grid[j][i+1] += 1
+                        PlayerRecordGrid[j][i+1] = PlayerRecordGrid[j][i]
+                        grid[j+1][i] += 1
+                        PlayerRecordGrid[j+1][i] = PlayerRecordGrid[j][i]
+                        grid[j-1][i] += 1
+                        PlayerRecordGrid[j-1][i] = PlayerRecordGrid[j][i]
+                        PlayerRecordGrid[j][i] = 0
+                    if i==grid_y-1:
+                        grid[j][i] = 0
+                        grid[j][i-1] += 1
+                        PlayerRecordGrid[j][i-1] = PlayerRecordGrid[j][i]
+                        grid[j+1][i] += 1
+                        PlayerRecordGrid[j+1][i] = PlayerRecordGrid[j][i]
+                        grid[j-1][i] += 1
+                        PlayerRecordGrid[j-1][i] = PlayerRecordGrid[j][i]
+                        PlayerRecordGrid[j][i] = 0
                     # Edge Code End
             
             #Middle Body Code Start
             else:
-                if grid[i][j]>3:
-                    grid[i][j] = 0
-                    grid[i][j+1] += 1
-                    PlayerRecordGrid[i][j+1] = PlayerRecordGrid[i][j]
-                    grid[i+1][j] += 1
-                    PlayerRecordGrid[i+1][j] = PlayerRecordGrid[i][j]
-                    grid[i-1][j] += 1
-                    PlayerRecordGrid[i-1][j] = PlayerRecordGrid[i][j]
-                    grid[i][j-1] += 1
-                    PlayerRecordGrid[i][j-1] = PlayerRecordGrid[i][j]
-                    PlayerRecordGrid[i][j] = 0
+                if grid[j][i]>3:
+                    grid[j][i] = 0
+                    grid[j][i+1] += 1
+                    PlayerRecordGrid[j][i+1] = PlayerRecordGrid[j][i]
+                    grid[j+1][i] += 1
+                    PlayerRecordGrid[j+1][i] = PlayerRecordGrid[j][i]
+                    grid[j-1][i] += 1
+                    PlayerRecordGrid[j-1][i] = PlayerRecordGrid[j][i]
+                    grid[j][i-1] += 1
+                    PlayerRecordGrid[j][i-1] = PlayerRecordGrid[j][i]
+                    PlayerRecordGrid[j][i] = 0
             #Middle Body Code End
     return grid
 
@@ -204,7 +205,7 @@ def set_vertices(cube_position_in_x,cube_position_in_y):
         new_z = vert[2]/2
 
         new_vert.append(new_x)
-        new_vert.append(new_y)
+        new_vert.append(-new_y)
         new_vert.append(new_z)
 
         new_vertices.append(new_vert)
@@ -300,9 +301,9 @@ def make_Blobs(type, center, color):
 
 # To make the grid Matrix
 ###############################################
-for x in range(grid_x):
+for y in range(grid_y):
     gr = []
-    for y in range(grid_y):
+    for x in range(grid_x):
         gr.append(set_vertices(x,y))
     Grid.append(gr)
 ###############################################
@@ -312,63 +313,6 @@ NoOfPlayers = int(input("Enter No. of Players(Current Max = 10):\n"))
 PlayerFailingBias = np.ones(NoOfPlayers) # This ensures that each player has atleast one turn
 CurrentPlayer = 1
 Played = False
-
-def game_loop():
-    global GameOver, CurrentPlayer, MainGrid
-    ###########################################################################
-    while True:
-        if GameOver:
-            break
-        #reset the current player loop
-        if CurrentPlayer > NoOfPlayers and CurrentPlayer != 1:
-            CurrentPlayer = 1
-        try:
-            print("Player %s:"%CurrentPlayer)
-            i = int(input("Enter y Coordinate\n"))
-            j = int(input("Enter x Coordinate\n"))
-        except ValueError:
-            print("Please Input Something!")
-            continue
-        #Checking for Out of Bounds
-        if i<1 or j<1 or i>grid_x or j>grid_y:
-            print("Wrong Input! Try Again!")
-            continue
-        #Checking if the player is 'stepping' on a already taken tile
-        elif PlayerRecordGrid[i-1][j-1] == 0 or PlayerRecordGrid[i-1][j-1] == CurrentPlayer:
-            MainGrid[i-1][j-1] += 1
-            PlayerRecordGrid[i-1][j-1] = CurrentPlayer
-        else:
-            print("WRONG MOVE! Warning Issued! Try Again!")
-            continue
-        while True:
-            MainGrid = SolveGrid(MainGrid)
-            if (PlayerFailingBias == 0).all(): #this if statement checks if the first round is compleated
-                for p in range(NoOfPlayers):
-                    try:
-                        #the following monstrocity checks if a player is missing from the player board
-                        list(np.array(PlayerRecordGrid).flatten()).index(p+1)
-                    except ValueError:
-                        #if you are here it means the player 'p' is missing from the board, since we have already checked that
-                        #the first turns have finished i.e. player 'p' is dead.
-                        if PlayerFailingBias[p - 1] == 0:
-                            print("Player no. %s eliminated!"%(p+1))
-                        #checking if anyone has won
-                        if len(set(np.array(PlayerRecordGrid).flatten())) == 2: # <=2 because there may be a '0' left behind in the grid
-                            print("Player %s has Won!"%(list(set(np.array(PlayerRecordGrid).flatten()))[1]))
-                            GameOver = True
-                            time.sleep(2)
-                        if len(set(np.array(PlayerRecordGrid).flatten())) == 1: # the winner takes all the spaces!
-                            print("Player %s has Won and has conqured all the spaces!"%(list(set(np.array(PlayerRecordGrid).flatten()))[0]))
-                            GameOver = True
-                            time.sleep(2)
-                        else:
-                            pass
-            # Checks if the MainGrid is ready for the next Player i.e. no explosions are taking place.
-            if(MainGrid == SolveGrid(MainGrid)).all():
-                PlayerFailingBias[CurrentPlayer - 1] = 0 # marks that the CurrentPlayer has played his first move
-                CurrentPlayer+=1 #Changes the player for next round
-                break
-    ###########################################################################
 
 def main():
     global GameOver, CurrentPlayer, MainGrid, PlayerRecordGrid, NoOfPlayers, PlayerFailingBias, Played
@@ -380,7 +324,7 @@ def main():
     glEnable(GL_DEPTH_TEST)
     glDepthFunc(GL_LESS)
     gluPerspective(45, (display[0]/display[1]), 0.1, 100)
-    glTranslatef(0.5-grid_x/2,0.5-grid_y/2, -distance_from_grid)
+    glTranslatef(-grid_x/2 + 0.5, grid_y/2 - 0.5, -distance_from_grid)
 
     rx, ry, rz = (0,0,0)
     tx, ty = (0,0)
@@ -412,10 +356,10 @@ def main():
                 if move:
                     tx += i/5
                     ty -= j/5
-            if e.type == KEYDOWN and e.key == K_UP:
+            if e.type == KEYDOWN and e.key == K_DOWN:
                 if currently_selected_cube[1] < grid_y-1:
                     currently_selected_cube[1]+=1
-            elif e.type == KEYDOWN and e.key == K_DOWN:
+            elif e.type == KEYDOWN and e.key == K_UP:
                 if currently_selected_cube[1] > 0:
                     currently_selected_cube[1]-=1
             elif e.type == KEYDOWN and e.key == K_LEFT:
@@ -426,15 +370,15 @@ def main():
                     currently_selected_cube[0]+=1
             elif e.type == KEYDOWN and (e.key == K_RETURN or e.key == K_SPACE):
                 # Registering in the Array
-                if PlayerRecordGrid[grid_x-currently_selected_cube[0]-1][grid_y-currently_selected_cube[1]-1] == 0 or PlayerRecordGrid[grid_x-currently_selected_cube[0]-1][grid_y-currently_selected_cube[1]-1] == CurrentPlayer:
-                    MainGrid[grid_x-currently_selected_cube[1]-1][grid_y-currently_selected_cube[0]-1] += 1
-                    PlayerRecordGrid[grid_x-currently_selected_cube[1]-1][grid_y-currently_selected_cube[0]-1] = CurrentPlayer
+                if PlayerRecordGrid[currently_selected_cube[1]][currently_selected_cube[0]] == 0 or PlayerRecordGrid[currently_selected_cube[1]][currently_selected_cube[0]] == CurrentPlayer:
+                    MainGrid[currently_selected_cube[1]][currently_selected_cube[0]] += 1
+                    PlayerRecordGrid[currently_selected_cube[1]][currently_selected_cube[0]] = CurrentPlayer
                     Played = True
                 else:
                     print("WRONG MOVE! Warning Issued! Try Again!")
                 
                 # Drawing the Blob
-                make_Blobs(1,(currently_selected_cube[0],currently_selected_cube[1],0),player_color[CurrentPlayer])
+                make_Blobs(1,(currently_selected_cube[1],currently_selected_cube[0],0),player_color[CurrentPlayer])
 
 
         if GameOver:
@@ -484,27 +428,21 @@ def main():
         tx, ty = (0,0)
         zpos = 0
         #makes the grid
-        for x in range(grid_x):
-            for y in range(grid_y):
+        for y in range(grid_y):
+            for x in range(grid_x):
                 if not (x==currently_selected_cube[0] and y == currently_selected_cube[1]):
-                    Cube(Grid[x][y], player_color[CurrentPlayer], 1)
+                    Cube(Grid[y][x], player_color[CurrentPlayer], 1)
                 else:
-                    Cube(Grid[x][y], (1-player_color[CurrentPlayer][0],1-player_color[CurrentPlayer][1],1-player_color[CurrentPlayer][2]), 2)
+                    Cube(Grid[y][x], (1-player_color[CurrentPlayer][0],1-player_color[CurrentPlayer][1],1-player_color[CurrentPlayer][2]), 2)
         
         # Fill the Grid
-        for i in range(grid_y):
-            for j in range(grid_x):
+        for j in range(grid_y):
+            for i in range(grid_x):
                 if PlayerRecordGrid[j][i] != 0:
-                    #print(i, j)
-                    make_Blobs(MainGrid[j][i], (grid_y-i-1,grid_x-j-1,0), player_color[int(PlayerRecordGrid[j][i])])
-        
-        #sphere((2,1,0), 0.5, 10, 10, (1,0,1))
-        #sphere((2,2,0), 0.5, 10, 10, (1,0,1))
-        #make_Blobs(3, (3,1,0), (1,1,0))
+                    make_Blobs(MainGrid[j][i], (i,-j,0), player_color[int(PlayerRecordGrid[j][i])])
 
         pygame.display.flip()
         pygame.time.wait(10)
 
 if __name__ == '__main__':
     main()
-    #game_loop()
