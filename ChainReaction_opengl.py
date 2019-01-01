@@ -69,7 +69,7 @@ def SolveGrid(passed_grid):
     for i in range(grid_x):
         for j in range(grid_y):
             if j==0 or j==grid_x-1:
-                if i==0 or i==grid_y-1:
+                if i==0 or i==grid_x-1:
                     # Corners Code Start
                     if grid[j][i] > 1:
                         if j==0  and  i==0:
@@ -86,14 +86,14 @@ def SolveGrid(passed_grid):
                             grid[j][i+1] += 1
                             PlayerRecordGrid[j][i+1] = PlayerRecordGrid[j][i]
                             PlayerRecordGrid[j][i] = 0
-                        if j==0 and i==grid_y-1:
+                        if j==0 and i==grid_x-1:
                             grid[j][i] = 0
                             grid[j][i-1] += 1
                             PlayerRecordGrid[j][i-1] = PlayerRecordGrid[j][i]
                             grid[j+1][i] += 1
                             PlayerRecordGrid[j+1][i] = PlayerRecordGrid[j][i]
                             PlayerRecordGrid[j][i] = 0
-                        if j==grid_x-1 and i==grid_y-1:
+                        if j==grid_x-1 and i==grid_x-1:
                             grid[j][i] = 0
                             grid[j-1][i] += 1
                             PlayerRecordGrid[j-1][i] = PlayerRecordGrid[j][i]
@@ -131,7 +131,7 @@ def SolveGrid(passed_grid):
                             grid[j-1][i] += 1
                             PlayerRecordGrid[j-1][i] = PlayerRecordGrid[j][i]
                             PlayerRecordGrid[j][i] = 0
-                        if i==grid_y-1:
+                        if i==grid_x-1:
                             grid[j][i] = 0
                             grid[j][i-1] += 1
                             PlayerRecordGrid[j][i-1] = PlayerRecordGrid[j][i]
@@ -140,7 +140,7 @@ def SolveGrid(passed_grid):
                             grid[j-1][i] += 1
                             PlayerRecordGrid[j-1][i] = PlayerRecordGrid[j][i]
                             PlayerRecordGrid[j][i] = 0
-            if i == 0 or i == grid_y-1:
+            if i == 0 or i == grid_x-1:
                 if grid[j][i] > 2:
                     if j==0:
                         grid[j][i] = 0
@@ -169,7 +169,7 @@ def SolveGrid(passed_grid):
                         grid[j-1][i] += 1
                         PlayerRecordGrid[j-1][i] = PlayerRecordGrid[j][i]
                         PlayerRecordGrid[j][i] = 0
-                    if i==grid_y-1:
+                    if i==grid_x-1:
                         grid[j][i] = 0
                         grid[j][i-1] += 1
                         PlayerRecordGrid[j][i-1] = PlayerRecordGrid[j][i]
@@ -449,6 +449,7 @@ def main():
             continue
         
         pygame.display.flip()
+
 
 if __name__ == '__main__':
     main()
