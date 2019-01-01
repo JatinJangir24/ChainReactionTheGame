@@ -311,6 +311,7 @@ for y in range(grid_y):
 # For now game will be starting in the console
 NoOfPlayers = int(input("Enter No. of Players(Current Max = 10):\n"))
 PlayerFailingBias = np.ones(NoOfPlayers) # This ensures that each player has atleast one turn
+PlayerDead = np.zeros(NoOfPlayers)
 CurrentPlayer = 1
 Played = False
 
@@ -399,6 +400,7 @@ def main():
                             #the first turns have finished i.e. player 'p' is dead.
                             if PlayerFailingBias[p - 1] == 0:
                                 print("Player no. %s eliminated!"%(p+1))
+                                PlayerDead[p] = 1
                             #checking if anyone has won
                             if len(set(np.array(PlayerRecordGrid).flatten())) == 2: # <=2 because there may be a '0' left behind in the grid
                                 print("Player %s has Won!"%(list(set(np.array(PlayerRecordGrid).flatten()))[1]))
@@ -414,6 +416,7 @@ def main():
                     CurrentPlayer+=1 #Changes the player for next round
                     break
             Played = False
+        
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
         
         #uncomment this for rotation
@@ -441,8 +444,11 @@ def main():
                 if PlayerRecordGrid[j][i] != 0:
                     make_Blobs(MainGrid[j][i], (i,-j,0), player_color[int(PlayerRecordGrid[j][i])])
 
+        if PlayerDead[CurrentPlayer-1]:
+            CurrentPlayer += 1
+            continue
+        
         pygame.display.flip()
-        pygame.time.wait(10)
 
 if __name__ == '__main__':
     main()
