@@ -1,12 +1,6 @@
 """
 Made by Jatin Omprakash Jangir
 """
-# TODO 
-# Make a Active cube for taking input from the user
-# movement by arrow keys.
-# make its color inverse of the current grid color
-# use pygame events to do it and if possible make it blink
-# whenever the user presses the enter key a blob is placed.
 
 import pygame
 import numpy as np
@@ -418,15 +412,14 @@ def main():
             Played = False
         
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-        
-        #uncomment this for rotation
-        #glRotatef(1, grid_x/2, grid_y/2, 0)
-        glTranslatef(-(0.5-grid_x/2),-(0.5-grid_y/2), 0)
+
+        #this whole part is for the rotation implimentation, the two translates are required to make the center of rotation be the center of rotation.
+        glTranslatef(-(0.5-grid_x/2),(0.5-grid_y/2), 0)
         glTranslate(tx/20., ty/20., - zpos)
         glRotate(ry, 1, 0, 0)
         glRotate(rx, 0, 1, 0)
         glRotate(rz, 0, 0, 1)
-        glTranslatef((0.5-grid_x/2),(0.5-grid_y/2), 0)
+        glTranslatef((0.5-grid_x/2),-(0.5-grid_y/2), 0)
         rx, ry, rz = (0,0,0)
         tx, ty = (0,0)
         zpos = 0
