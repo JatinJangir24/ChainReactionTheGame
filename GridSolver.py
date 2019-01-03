@@ -4,7 +4,6 @@ TODO
 rewrite the MainGrid to include the player data into itself so as to reduse the amount of global variables.
 """
 def SolveGrid(passed_grid):
-    global PlayerR
     grid = np.copy(passed_grid)
     for i in range(grid_x):
         for j in range(grid_y):
