@@ -13,18 +13,13 @@ GridSolver.py
 
 """
 TODO
-rewrite the MainGrid to include the player data into itself so as to reduse the amount of global variables.
+Rewrite the MainGrid into Mastergrid to include the player data into itself so as to reduse the amount of global variables.
 """
 
 import pygame
-#import numpy as np
 from pygame.locals import *
-#from OpenGL.GL import *
-#from OpenGL.GLU import *
 from GridSolver import *
 from DrawGraphics import *
-import math
-import sys
 
 #Variables/Constants
 vertices = (
@@ -65,11 +60,17 @@ player_color = [
     (0.5,0.5,0),]
 currently_selected_cube = [0,0,0]
 
+
+"""
+TODO
+Make this part in the PyGame Window.
+"""
 #####################################################3
 grid_x = int(input("Enter Grid Size in X-direction:\n"))
 grid_y = int(input("Enter Grid Size in Y-direction:\n"))
+#####################################################3
 distance_from_grid = max(grid_x,grid_y)*1.414
-MainGrid = np.zeros((grid_y,grid_x)) # I have just replaced the x and y
+MainGrid = np.zeros((grid_y,grid_x))
 PlayerRecordGrid = np.zeros((grid_y,grid_x))
 Grid = []
 GameOver = False
@@ -85,32 +86,19 @@ for y in range(grid_y):
 
 """
 TODO
-Make the whole game in openGL.
+Make the whole game in one Window.
 """
 # For now game will be starting in the console
 NoOfPlayers = int(input("Enter No. of Players(Current Max = 10):\n"))
+# TODO impliment the PlayerFailingBias into the MasterGrid
 PlayerFailingBias = np.ones(NoOfPlayers) # This ensures that each player has atleast one turn
 PlayerDead = np.zeros(NoOfPlayers)
 CurrentPlayer = 1
 Played = False
 
-def main():
-    global GameOver, CurrentPlayer, MainGrid, PlayerRecordGrid, NoOfPlayers, PlayerFailingBias, Played
-    pygame.init()
-    display = (800,600)
-    pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
-    clock = pygame.time.Clock()
-    pygame.display.set_caption('Chain Reaction')
-
-    gl_init()
-
-    rx, ry, rz = (0,0,0)
-    tx, ty = (0,0)
-    zpos = 0
-    zrotate = rotate = move = False
-    while True:
-        clock.tick(30)
-        for e in pygame.event.get():
+# check this function
+def handleEvents():
+    for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 pygame.quit()
                 quit()
@@ -158,6 +146,24 @@ def main():
                 # Drawing the Blob
                 make_Blobs(1,(currently_selected_cube[1],currently_selected_cube[0],0),player_color[CurrentPlayer])
 
+def main():
+    global GameOver, CurrentPlayer, MainGrid, PlayerRecordGrid, NoOfPlayers, PlayerFailingBias, Played
+    pygame.init()
+    display = (800,600)
+    pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
+    clock = pygame.time.Clock()
+    pygame.display.set_caption('Chain Reaction')
+
+    gl_init()
+
+    rx, ry, rz = (0,0,0)
+    tx, ty = (0,0)
+    zpos = 0
+    zrotate = rotate = move = False
+    while True:
+        clock.tick(30)
+        
+        handleEvents() # check this function
 
         if GameOver:
             break

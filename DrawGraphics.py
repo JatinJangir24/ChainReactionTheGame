@@ -1,5 +1,6 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
+import math
 
 def gl_init():
     glEnable(GL_DEPTH_TEST)
