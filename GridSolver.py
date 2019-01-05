@@ -1,14 +1,16 @@
 import numpy as np
+import vars
+
 """
 TODO
 rewrite the MainGrid to include the player data into itself so as to reduse the amount of global variables.
 """
 def SolveGrid(passed_grid):
     grid = np.copy(passed_grid)
-    for i in range(grid_x):
-        for j in range(grid_y):
-            if j==0 or j==grid_x-1:
-                if i==0 or i==grid_x-1:
+    for i in range(vars.grid_x):
+        for j in range(vars.grid_y):
+            if j==0 or j==vars.grid_x-1:
+                if i==0 or i==vars.grid_x-1:
                     # Corners Code Start
                     if grid[j][i] > 1:
                         if j==0  and  i==0:
