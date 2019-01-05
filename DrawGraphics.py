@@ -11,7 +11,7 @@ def gl_init():
 
 def set_vertices(cube_position_in_x,cube_position_in_y):
     new_vertices = []
-    for vert in vertices:
+    for vert in vars.vertices:
         new_vert = []
         new_x = vert[0]/2 + cube_position_in_x
         new_y = vert[1]/2 + cube_position_in_y
@@ -29,7 +29,7 @@ def Cube(vertices, color, thickness):
     glLineWidth(thickness)
     glBegin(GL_LINES)
     glColor3fv(color)
-    for edge in edges: 
+    for edge in vars.edges:
         for vertex in edge:
             glVertex3fv(vertices[vertex])
     
@@ -128,9 +128,9 @@ def asdasdasd():
     for y in range(vars.grid_y):
         for x in range(vars.grid_x):
             if not (x==currently_selected_cube[0] and y == currently_selected_cube[1]):
-                Cube(Grid[y][x], vars.player_color[CurrentPlayer], 1)
+                Cube(Grid[y][x], vars.player_color[vars.CurrentPlayer], 1)
             else:
-                Cube(Grid[y][x], (1-vars.player_color[CurrentPlayer][0],1-vars.player_color[CurrentPlayer][1],1-vars.player_color[CurrentPlayer][2]), 2)        
+                Cube(Grid[y][x], (1-vars.player_color[vars.CurrentPlayer][0],1-vars.player_color[vars.CurrentPlayer][1],1-vars.player_color[vars.CurrentPlayer][2]), 2)        
     # Fill the Grid
     for j in range(vars.grid_y):
         for i in range(vars.grid_x):

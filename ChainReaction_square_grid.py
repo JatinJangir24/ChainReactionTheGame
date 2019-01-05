@@ -23,30 +23,7 @@ from DrawGraphics import *
 import vars
 
 #Variables/Constants
-vertices = (
-    (1, -1, -1),
-    (1, 1, -1),
-    (-1, 1, -1),
-    (-1, -1, -1),
-    (1, -1, 1),
-    (1, 1, 1),
-    (-1, -1, 1),
-    (-1, 1, 1)
-    )
-edges = (
-    (0,1),
-    (0,3),
-    (0,4),
-    (2,1),
-    (2,3),
-    (2,7),
-    (6,3),
-    (6,4),
-    (6,7),
-    (5,1),
-    (5,4),
-    (5,7)
-    )
+gameMode = 1
 
 currently_selected_cube = [0,0,0]
 
@@ -82,7 +59,7 @@ NoOfPlayers = int(input("Enter No. of Players(Current Max = 10):\n"))
 # TODO impliment the PlayerFailingBias into the MasterGrid
 PlayerFailingBias = np.ones(NoOfPlayers) # This ensures that each player has atleast one turn
 PlayerDead = np.zeros(NoOfPlayers)
-CurrentPlayer = 1
+vars.CurrentPlayer = 1
 Played = False
 
 # check this function
@@ -126,18 +103,18 @@ def handleEvents():
                     currently_selected_cube[0]+=1
             elif e.type == KEYDOWN and (e.key == K_RETURN or e.key == K_SPACE):
                 # Registering in the Array
-                if PlayerRecordGrid[currently_selected_cube[1]][currently_selected_cube[0]] == 0 or PlayerRecordGrid[currently_selected_cube[1]][currently_selected_cube[0]] == CurrentPlayer:
+                if PlayerRecordGrid[currently_selected_cube[1]][currently_selected_cube[0]] == 0 or PlayerRecordGrid[currently_selected_cube[1]][currently_selected_cube[0]] == vars.CurrentPlayer:
                     MainGrid[currently_selected_cube[1]][currently_selected_cube[0]] += 1
-                    PlayerRecordGrid[currently_selected_cube[1]][currently_selected_cube[0]] = CurrentPlayer
+                    PlayerRecordGrid[currently_selected_cube[1]][currently_selected_cube[0]] = vars.CurrentPlayer
                     Played = True
                 else:
                     print("WRONG MOVE! Warning Issued! Try Again!")
                 
                 # Drawing the Blob
-                make_Blobs(1,(currently_selected_cube[1],currently_selected_cube[0],0),vars.player_color[CurrentPlayer])
+                make_Blobs(1,(currently_selected_cube[1],currently_selected_cube[0],0),vars.player_color[vars.CurrentPlayer])
 
 def main():
-    global GameOver, CurrentPlayer, MainGrid, PlayerRecordGrid, NoOfPlayers, PlayerFailingBias, Played
+    global GameOver, vars.CurrentPlayer, MainGrid, PlayerRecordGrid, NoOfPlayers, PlayerFailingBias, Played
     pygame.init()
     vars.display = (800,600)
     pygame.display.set_mode(vars.display, DOUBLEBUF|OPENGL)
@@ -155,8 +132,8 @@ def main():
             break
         
         if Played:
-            if CurrentPlayer >= NoOfPlayers and CurrentPlayer != 1:
-                CurrentPlayer = 0
+            if vars.CurrentPlayer >= NoOfPlayers and vars.CurrentPlayer != 1:
+                vars.CurrentPlayer = 0
             while True:
                 MainGrid = SolveGrid(MainGrid)
                 if (PlayerFailingBias == 0).all(): #this if statement checks if the first round is compleated
@@ -181,15 +158,15 @@ def main():
                                 pass
                 # Checks if the MainGrid is ready for the next Player i.e. no explosions are taking place.
                 if(MainGrid == SolveGrid(MainGrid)).all():
-                    PlayerFailingBias[CurrentPlayer - 1] = 0 # marks that the CurrentPlayer has played his first move
-                    CurrentPlayer+=1 #Changes the player for next round
+                    PlayerFailingBias[vars.CurrentPlayer - 1] = 0 # marks that the vars.CurrentPlayer has played his first move
+                    vars.CurrentPlayer+=1 #Changes the player for next round
                     break
             Played = False
         
         asdasdasd()
 
-        if PlayerDead[CurrentPlayer-1]:
-            CurrentPlayer += 1
+        if PlayerDead[vars.CurrentPlayer-1]:
+            vars.CurrentPlayer += 1
             continue
         
         pygame.display.flip()
