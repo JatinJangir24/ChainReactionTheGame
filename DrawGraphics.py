@@ -127,7 +127,7 @@ def asdasdasd():
     #makes the grid
     for y in range(vars.grid_y):
         for x in range(vars.grid_x):
-            if not (x==currently_selected_cube[0] and y == currently_selected_cube[1]):
+            if not (x==vars.currently_selected_cube[0] and y == vars.currently_selected_cube[1]):
                 Cube(Grid[y][x], vars.player_color[vars.CurrentPlayer], 1)
             else:
                 Cube(Grid[y][x], (1-vars.player_color[vars.CurrentPlayer][0],1-vars.player_color[vars.CurrentPlayer][1],1-vars.player_color[vars.CurrentPlayer][2]), 2)        

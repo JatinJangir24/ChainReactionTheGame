@@ -25,7 +25,7 @@ import vars
 #Variables/Constants
 gameMode = 1
 
-currently_selected_cube = [0,0,0]
+vars.currently_selected_cube = [0,0,0]
 
 """
 TODO
@@ -36,7 +36,7 @@ vars.grid_x = int(input("Enter Grid Size in X-direction:\n"))
 vars.grid_y = int(input("Enter Grid Size in Y-direction:\n"))
 #####################################################
 vars.distance_from_grid = max(vars.grid_x,vars.grid_y)*1.414
-MainGrid = np.zeros((vars.grid_y,vars.grid_x))
+MainGrid = np.zeros((vars.grid_y, vars.grid_x))
 PlayerRecordGrid = np.zeros((vars.grid_y,vars.grid_x))
 Grid = []
 GameOver = False
@@ -46,8 +46,8 @@ GameOver = False
 for y in range(vars.grid_y):
     gr = []
     for x in range(vars.grid_x):
-        gr.append(set_vertices(x,y))
-    Grid.append(gr)
+        gr.append((set_vertices(x,y), 0))
+    vars.masterGrid.append(gr)
 ###############################################
 
 """
@@ -90,28 +90,28 @@ def handleEvents():
                     vars.tx += i/5
                     vars.ty -= j/5
             if e.type == KEYDOWN and e.key == K_DOWN:
-                if currently_selected_cube[1] < vars.grid_y-1:
-                    currently_selected_cube[1]+=1
+                if vars.currently_selected_cube[1] < vars.grid_y-1:
+                    vars.currently_selected_cube[1]+=1
             elif e.type == KEYDOWN and e.key == K_UP:
-                if currently_selected_cube[1] > 0:
-                    currently_selected_cube[1]-=1
+                if vars.currently_selected_cube[1] > 0:
+                    vars.currently_selected_cube[1]-=1
             elif e.type == KEYDOWN and e.key == K_LEFT:
-                if currently_selected_cube[0] > 0:
-                    currently_selected_cube[0]-=1
+                if vars.currently_selected_cube[0] > 0:
+                    vars.currently_selected_cube[0]-=1
             elif e.type == KEYDOWN and e.key == K_RIGHT:
-                if currently_selected_cube[0] < vars.grid_x-1:
-                    currently_selected_cube[0]+=1
+                if vars.currently_selected_cube[0] < vars.grid_x-1:
+                    vars.currently_selected_cube[0]+=1
             elif e.type == KEYDOWN and (e.key == K_RETURN or e.key == K_SPACE):
                 # Registering in the Array
-                if PlayerRecordGrid[currently_selected_cube[1]][currently_selected_cube[0]] == 0 or PlayerRecordGrid[currently_selected_cube[1]][currently_selected_cube[0]] == vars.CurrentPlayer:
-                    MainGrid[currently_selected_cube[1]][currently_selected_cube[0]] += 1
-                    PlayerRecordGrid[currently_selected_cube[1]][currently_selected_cube[0]] = vars.CurrentPlayer
+                if PlayerRecordGrid[vars.currently_selected_cube[1]][vars.currently_selected_cube[0]] == 0 or PlayerRecordGrid[vars.currently_selected_cube[1]][vars.currently_selected_cube[0]] == vars.CurrentPlayer:
+                    MainGrid[vars.currently_selected_cube[1]][vars.currently_selected_cube[0]] += 1
+                    PlayerRecordGrid[vars.currently_selected_cube[1]][vars.currently_selected_cube[0]] = vars.CurrentPlayer
                     Played = True
                 else:
                     print("WRONG MOVE! Warning Issued! Try Again!")
                 
                 # Drawing the Blob
-                make_Blobs(1,(currently_selected_cube[1],currently_selected_cube[0],0),vars.player_color[vars.CurrentPlayer])
+                make_Blobs(1,(vars.currently_selected_cube[1],vars.currently_selected_cube[0],0),vars.player_color[vars.CurrentPlayer])
 
 def main():
     global GameOver, vars.CurrentPlayer, MainGrid, PlayerRecordGrid, NoOfPlayers, PlayerFailingBias, Played

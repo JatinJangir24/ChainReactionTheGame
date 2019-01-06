@@ -1,9 +1,14 @@
 display = (800,600)
 gameMode = 1
 
+
 if gameMode == 1:
+    currently_selected_cube = [0,0,0]
+
     grid_x = 0
     grid_y = 0
+
+    masterGrid = list()
 
     rx, ry, rz = (0,0,0)
     tx, ty = (0,0)
@@ -37,7 +42,6 @@ if gameMode == 1:
         (5,4),
         (5,7)
         )
-
     player_color = [
         (0,0,0), # <= This color will never show up.
         (0,0,1),
